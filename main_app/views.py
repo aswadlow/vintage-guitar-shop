@@ -24,13 +24,11 @@ def guitar_detail(request, guitar_id):
   guitar = Guitar.objects.get(id=guitar_id)
   id_list = guitar.pedals.all().values_list('id')
   no_pedals = Pedal.objects.exclude(id__in=id_list)
-  reviews = Review.objects.filter(guitar=guitar_id)
-  print (f'{reviews}')
   review_form = ReviewForm()
+  print(guitar.pedals.all())
   return render(request, 'guitars/detail.html', { 
      'guitar': guitar,
      'review_form': review_form,
-     'reviews': reviews,
      'pedals': no_pedals
      })
 
@@ -77,5 +75,5 @@ def assoc_pedal(request, guitar_id, pedal_id):
   return redirect('detail', guitar_id=guitar_id)
 
 def unassoc_pedal(request, guitar_id, pedal_id):
-  Guitar.object.get(id=guitar_id).pedals.remove(pedal_id)
+  Guitar.objects.get(id=guitar_id).pedals.remove(pedal_id)
   return redirect('detail', guitar_id=guitar_id)
